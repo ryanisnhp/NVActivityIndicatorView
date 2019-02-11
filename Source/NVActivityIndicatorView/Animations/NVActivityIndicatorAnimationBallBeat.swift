@@ -28,7 +28,7 @@
 import UIKit
 
 class NVActivityIndicatorAnimationBallBeat: NVActivityIndicatorAnimationDelegate {
-
+    
     func setUpAnimation(in layer: CALayer, size: CGSize, color: UIColor) {
         let circleSpacing: CGFloat = 6
         let circleSize = (size.width - circleSpacing * 2) / 3
@@ -36,25 +36,25 @@ class NVActivityIndicatorAnimationBallBeat: NVActivityIndicatorAnimationDelegate
         let y = (layer.bounds.size.height - circleSize) / 2
         let duration: CFTimeInterval = 0.7
         let beginTime = CACurrentMediaTime()
-        let beginTimes = [0.35, 0, 0.35]
-
+        let beginTimes = [0, 0.2, 0.4]
+        
         // Scale animation
         let scaleAnimation = CAKeyframeAnimation(keyPath: "transform.scale")
-
+        
         scaleAnimation.keyTimes = [0, 0.5, 1]
-        scaleAnimation.values = [1, 0.75, 1]
+        scaleAnimation.values = [0.6, 0.8, 1]
         scaleAnimation.duration = duration
-
+        
         // Opacity animation
         let opacityAnimation = CAKeyframeAnimation(keyPath: "opacity")
-
+        
         opacityAnimation.keyTimes = [0, 0.5, 1]
-        opacityAnimation.values = [1, 0.2, 1]
+        opacityAnimation.values = [0.2, 0.5, 1]
         opacityAnimation.duration = duration
-
+        
         // Aniamtion
         let animation = CAAnimationGroup()
-
+        
         animation.animations = [scaleAnimation, opacityAnimation]
         #if swift(>=4.2)
         animation.timingFunction = CAMediaTimingFunction(name: .linear)
@@ -64,7 +64,7 @@ class NVActivityIndicatorAnimationBallBeat: NVActivityIndicatorAnimationDelegate
         animation.duration = duration
         animation.repeatCount = HUGE
         animation.isRemovedOnCompletion = false
-
+        
         // Draw circles
         for i in 0 ..< 3 {
             let circle = NVActivityIndicatorShape.circle.layerWith(size: CGSize(width: circleSize, height: circleSize), color: color)
@@ -72,7 +72,7 @@ class NVActivityIndicatorAnimationBallBeat: NVActivityIndicatorAnimationDelegate
                                y: y,
                                width: circleSize,
                                height: circleSize)
-
+            
             animation.beginTime = beginTime + beginTimes[i]
             circle.frame = frame
             circle.add(animation, forKey: "animation")
